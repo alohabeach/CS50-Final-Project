@@ -1,5 +1,24 @@
 extends layout
 
 block content
-    h1= title
-    p Welcome to #{title}
+    // Menu section
+    .row.justify-content-center.mt-5
+        // Connect 4 Card
+        .col-md-5.mb-4
+            .card.bg-dark-subtle.custom-card-rounded
+                img.custom-img-rounded.card-img-top(src="/images/connect4-thumbnail.png" alt="Connect 4 Thumbnail")
+                .card-body.text-center
+                    h2.card-title Connect 4
+                    p.card-text Select a mode to play:
+                    .d-flex.justify-content-center
+                        a.btn.btn-primary.w-48.mx-2(href="/connect4/local-coop") Play Local Co-op
+                        a.btn.btn-danger.w-48.mx-2(href="/connect4/ai") Play Against AI
+
+        // Numberlink Card
+        .col-md-5.mb-4
+            .card.bg-dark-subtle.custom-card-rounded
+                img.custom-img-rounded.card-img-top(src="/images/numberlink-thumbnail.png" alt="Numberlink Thumbnail")
+                .card-body.text-center
+                    h2.card-title Connect Flow
+                    p.card-text Solve the puzzles by connecting numbers!
+                    a.btn.btn-primary(href="/numberlink") Play Connect Flow
