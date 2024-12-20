@@ -8,7 +8,6 @@ const defaultGameState = { pieces: Array(7).fill().map(() => Array(6).fill(0)) }
 function setup() {
     createCanvas(windowWidth * 0.6, windowHeight * 0.6, document.getElementById("connect4"));
     scaleHandler = new Scale(width, height);
-    scale = scaleHandler.getScale();
 
     let oldPlayers = board?.players;
 
