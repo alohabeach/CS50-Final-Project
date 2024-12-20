@@ -17,8 +17,8 @@ class Board {
     }
 
     makeOtherDraws() {
-        const btnX = this.sides.bottom.x - this.scale * 2.9;
-        const btnY = this.sides.bottom.y + this.scale * 1.5;
+        const btnX = this.sides.bottom.x - this.scale * 4.2;
+        const btnY = this.sides.bottom.y + this.scale * 0.8;
         this.restartBtn = new Button('Restart', this.scale * 0.3, btnX, btnY, color(0, 70, 240));
         this.arrow = new Arrow(this.sides.top.y - this.scale / 2, this.scale * 0.3);
     }
@@ -135,8 +135,8 @@ class Board {
     }
 
     drawTurnDisplay() {
-        const textY = this.sides.bottom.y + this.scale*0.3;
-        const pieceY = this.sides.bottom.y + this.scale*0.7;
+        const textY = this.sides.bottom.y + this.scale*0.5;
+        const pieceY = this.sides.bottom.y + this.scale*1.1;
         const center = this.sides.bottom.x;
         const left = center - this.scale*2.2;
         const right = center + this.scale*2.2;
@@ -144,7 +144,7 @@ class Board {
         push();
         fill(255);
         stroke(0);
-        strokeWeight(this.scale*0.03);
+        strokeWeight(0);
         textSize(this.scale*0.3);
         textAlign(CENTER, CENTER);
 
@@ -157,12 +157,16 @@ class Board {
         } else {
             text(`${this.playerTurn.username}\'s Turn`, center, this.sides.top.y - this.scale*0.8);
         }
+
+        const player1 = this.players[0];
+        const player2 = this.players[1];
         
-        text(this.players[0].username, left, textY);
+        text(`${player1.username}\n${player1.points} Win${player1.points == 1 ? '' : 's'}`, left, textY);
         text('vs', center, textY);
-        text(this.players[1].username, right, textY);
+        text(`${player2.username}\n${player2.points} Win${player2.points == 1 ? '' : 's'}`, right, textY);
         
         ellipseMode(CENTER);
+        strokeWeight(this.scale*0.03);
         fill(251, 200, 2);
         ellipse(left, pieceY, this.pieceScale/2);
         fill(207, 36, 52);
@@ -171,6 +175,8 @@ class Board {
     }
 
     gameOver(gameOverState) {
+        if (gameOverState.winner) this.players[gameOverState.winner.playerNum - 1].points++;
+
         this.gameOverAnimFrame = 0;
         this.gameOverAnimEnd = 100;
         this.gameOverAnimSpeed = 1.2;

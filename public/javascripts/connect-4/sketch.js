@@ -10,11 +10,13 @@ function setup() {
     scaleHandler = new Scale(width, height);
     scale = scaleHandler.getScale();
 
+    let oldPlayers = board?.players;
+
     board = new Board(COLUMNS, ROWS, scaleHandler, new createVector(width/2, height/2), defaultGameState);
     board.singlePlayer = true;
-    board.players = [
-        { username: "Player 1", playerNum: 1, type: "players" },
-        { username: isCoop ? "Player 2" : "Computer", playerNum: 2, type: "players" }
+    board.players = oldPlayers || [
+        { username: "Player 1", playerNum: 1, type: "players", points: 0 },
+        { username: isCoop ? "Player 2" : "Computer", playerNum: 2, type: "players", points: 0 },
     ];
     board.user = board.players[0];
     board.playerTurn = board.user;
