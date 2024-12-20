@@ -35,15 +35,17 @@ function mouseClicked() {
 
         board.play(board.selectedColumn, board.user.playerNum);
 
-        if (newGameState.winner || newGameState.tied) {
-            board.user = {};
-            board.gameOver(newGameState);
-        }
-
         if (isCoop) {
             board.playerTurn = board.players.find(player => player.playerNum != board.playerTurn.playerNum);
             board.user = board.playerTurn;
         } else {
+            if (newGameState.winner || newGameState.tie) {
+                board.user = {};
+                board.gameOver(newGameState);
+
+                return;
+            }
+
             const bestMove = ai.getMove(newGameState.pieces);
             const otherPlayerNum = board.players.find(player => player.playerNum != board.playerTurn.playerNum).playerNum;
 
@@ -51,7 +53,7 @@ function mouseClicked() {
             board.play(bestMove, otherPlayerNum);
         }
 
-        if (newGameState.winner || newGameState.tied) {
+        if (newGameState.winner || newGameState.tie) {
             board.user = {};
             board.gameOver(newGameState);
         }

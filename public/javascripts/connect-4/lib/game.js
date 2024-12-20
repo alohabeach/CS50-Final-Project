@@ -83,7 +83,7 @@ class Game {
             newGameState.tie = true;
             this.pieces.forEach(column => {
                 column.forEach(piece => {
-                    if (piece != 0) newGameState.tie = false;
+                    if (piece === 0) newGameState.tie = false;
                 });
             });
         }
