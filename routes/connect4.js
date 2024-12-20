@@ -8,12 +8,12 @@ router.get('/', function (req, res, next) {
 
 /* GET co-op page. */
 router.get('/local-coop', function (req, res, next) {
-    res.render('connect4', { title: 'Connect 4' });
+    res.render('connect-4', { title: 'Connect 4', isCoop: true });
 });
 
 /* GET ai page. */
 router.get('/ai', function (req, res, next) {
-    res.send('unfinished');
+    res.render('connect-4', { title: 'Connect 4', isCoop: false });
 });
 
 module.exports = router;

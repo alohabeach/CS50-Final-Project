@@ -1,3 +1,6 @@
+const COLUMNS = 7;
+const ROWS = 6;
+
 let game, board, ai, scaleHandler;
 const defaultGameState = { pieces: Array(7).fill().map(() => Array(6).fill(0)) };
 
@@ -7,17 +10,19 @@ function setup() {
     scaleHandler = new Scale(width, height);
     scale = scaleHandler.getScale();
 
-    board = new Board(7, 6, scaleHandler, new createVector(width/2, height/2), defaultGameState);
+    board = new Board(COLUMNS, ROWS, scaleHandler, new createVector(width/2, height/2), defaultGameState);
     board.singlePlayer = true;
     board.players = [
         { username: "Player 1", playerNum: 1, type: "players" },
-        { username: "Player 2", playerNum: 2, type: "players" }
+        { username: isCoop ? "Player 2" : "Computer", playerNum: 2, type: "players" }
     ];
     board.user = board.players[0];
     board.playerTurn = board.user;
 
-    game = new Game(7, 6);
+    game = new Game(COLUMNS, ROWS);
     game.players = board.players;
+
+    ai = new Connect4AI({ depth: 5, columns: COLUMNS, rows: ROWS });
 }
 
 function mouseClicked() {
@@ -26,12 +31,26 @@ function mouseClicked() {
     if (board.isMouseOver('pieces') && board.canPlay()) {
         if (!game.isValidPlay(board.selectedColumn)) return;
 
-        const newGameState = game.play(board.selectedColumn, board.user.playerNum);
+        let newGameState = game.play(board.selectedColumn, board.user.playerNum);
 
         board.play(board.selectedColumn, board.user.playerNum);
-        board.playerTurn = board.players.find(player => player.playerNum != board.playerTurn.playerNum);
-        board.user = board.playerTurn;
-    
+
+        if (newGameState.winner || newGameState.tied) {
+            board.user = {};
+            board.gameOver(newGameState);
+        }
+
+        if (isCoop) {
+            board.playerTurn = board.players.find(player => player.playerNum != board.playerTurn.playerNum);
+            board.user = board.playerTurn;
+        } else {
+            const bestMove = ai.getMove(newGameState.pieces);
+            const otherPlayerNum = board.players.find(player => player.playerNum != board.playerTurn.playerNum).playerNum;
+
+            newGameState = game.play(bestMove, otherPlayerNum)
+            board.play(bestMove, otherPlayerNum);
+        }
+
         if (newGameState.winner || newGameState.tied) {
             board.user = {};
             board.gameOver(newGameState);
@@ -51,9 +70,7 @@ function draw() {
     board.draw();
 
     // mouse stuff
-    if (board.isMouseOver() && board.canPlay()) {
-        cursor('pointer');
-    } else if (board.isMouseOver('restartBtn')) {
+    if ((board.isMouseOver() && board.canPlay()) || board.isMouseOver('restartBtn')) {
         cursor('pointer');
     } else {
         cursor('default');
