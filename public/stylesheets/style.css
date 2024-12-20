@@ -20,14 +20,14 @@ a.btn {
 
 
 .card {
-    max-height: 350px;
+    max-height: 2000px;
     /* Adjust as needed for consistent card height */
     border: none;
     /* Remove card border for cleaner dark theme */
 }
 
 .card img {
-    height: 200px;
+    height: 750px;
     /* Adjust image size to fit within the card */
     object-fit: cover;
 }
@@ -63,4 +63,22 @@ a.btn {
     padding: 50px 20px;
     background: linear-gradient(to right, #6a11cb, #2575fc);
     color: white;
+}
+
+.canvas-container {
+    display: flex;
+    justify-content: center;
+    /* Ensures the canvas itself is centered */
+    align-items: center;
+}
+
+canvas {
+    display: flex;
+    justify-content: center;
+    /* Ensures the canvas itself is centered */
+    align-items: center;
+    background-color: #333;
+    display: block;
+    margin-top: 50px;
+    margin-bottom: 0px;
 }
