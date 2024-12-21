@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET numberlink page. */
 router.get('/', function (req, res, next) {
-    res.send('unfinished');
+    res.render('numberlink', { title: 'Numberlink' });
 });
 
 module.exports = router;
