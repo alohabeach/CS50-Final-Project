@@ -14,6 +14,7 @@ This is a simple game hub website built using Express. It includes two games: Co
 ## Requirements
 Before you can run the application, ensure you have the following installed on your computer:
 - [Node.js](https://nodejs.org/): This is the runtime environment required to run the Express server.
+- [Git](https://git-scm.com/): Used to clone the repository from GitHub.
 
 ## Setup Instructions
 1. First, clone the repository to your local machine using the following command:
@@ -21,12 +22,12 @@ Before you can run the application, ensure you have the following installed on y
 git clone https://github.com/alohabeach/CS50-Final-Project
 ```
 
-2. Open the project folder in your terminal or in VS Code:
+2. Open the project folder in your terminal:
 ```bash
 cd CS50-Final-Project
 ```
 
-3.  Run the following command to install all required dependencies:
+3. Run the following command to install all required dependencies:
 ```bash
 npm install
 ```
@@ -46,11 +47,9 @@ http://127.0.0.1:1000
 
 
 ## Games Included
-1. Connect 4
-A classic 4-in-a-row game where players take turns dropping discs into a grid in an attempt to connect four of their discs in a row, either horizontally, vertically, or diagonally.
+1. Connect 4: A classic 4-in-a-row game where players take turns dropping discs into a grid in an attempt to connect four of their discs in a row, either horizontally, vertically, or diagonally.
 
-2. Connect Flow
-A puzzle game where players must connect pairs of matching numbers on a grid by drawing a path between them, without paths crossing.
+2. Connect Flow: A puzzle game where players must connect pairs of matching numbers on a grid by drawing a path between them, without paths crossing.
 
 
 
