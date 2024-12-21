@@ -14,6 +14,7 @@ This is a simple game hub website built using Express. It includes two games: Co
 ## Requirements
 Before you can run the application, ensure you have the following installed on your computer:
 - [Node.js](https://nodejs.org/): This is the runtime environment required to run the Express server.
+- [npm](https://www.npmjs.com/): Node Package Manager, included with Node.js, is required to install project dependencies.
 - [Git](https://git-scm.com/): Used to clone the repository from GitHub.
 
 ## Setup Instructions
