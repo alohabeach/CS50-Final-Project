@@ -88,5 +88,6 @@ function onListening() {
         ? 'pipe ' + addr
         : 'port ' + addr.port;
     debug('Listening on ' + bind);
-    console.log(`http://localhost:${port}`);
+    console.log('Access website via either link:');
+    console.log(`http://localhost:${port}\nhttp://127.0.0.1:${port}`);
 }
