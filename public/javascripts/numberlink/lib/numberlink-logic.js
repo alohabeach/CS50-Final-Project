@@ -485,17 +485,44 @@ class NumberlinkPuzzle extends NumberlinkGenerator {
      * 
      * @param {number} boardSize - The size of the board (number of rows and columns).
      */
-    constructor(boardSize) {
+    constructor(boardSize, maxPairs) {
         super(boardSize);
     }
 
     /**
      * Generates a new puzzle and sets the unsolved and solved boards.
      */
-    generateNewPuzzle() {
+    generateNewPuzzle(maxPairs = 10, preferredPairs = null, maxAttempts = 100) {
         const newPuzzle = this.generateBoard();
+
         this.unsolvedBoard = newPuzzle[0];
         this.solvedBoard = newPuzzle[1];
+
+        if (maxAttempts <= 0) return;
+
+        const numberOfPairs = this.countPairs();
+        if (numberOfPairs > maxPairs || numberOfPairs != preferredPairs) {
+            this.generateNewPuzzle(maxPairs, preferredPairs, maxAttempts - 1);
+        }
+    }
+
+    /**
+     * Counts the unique numbers present in a 2D array (`unsolvedBoard`).
+     * This method iterates through all cells in the 2D array and adds each number
+     * to a `Set`, which automatically ensures uniqueness.
+     * 
+     * @returns {number} The count of unique numbers in the 2D array.
+     */
+    countPairs() {
+        const uniqueNumbers = new Set();
+
+        for (const column of this.unsolvedBoard) {
+            for (const number of column) {
+                if (number != null) uniqueNumbers.add(number);
+            }
+        }
+
+        return uniqueNumbers.size;
     }
 
     /**

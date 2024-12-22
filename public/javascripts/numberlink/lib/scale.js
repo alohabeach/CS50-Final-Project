@@ -9,6 +9,6 @@ class Scale {
 
     update(w, h) {
         resizeCanvas(w, h);
-        this.scl = (w + h) * 0.0351;
+        this.scl = (w + h) * 0.04;
     }
 }
