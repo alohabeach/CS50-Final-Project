@@ -490,20 +490,48 @@ class NumberlinkPuzzle extends NumberlinkGenerator {
     }
 
     /**
-     * Generates a new puzzle and sets the unsolved and solved boards.
+     * Generates a puzzle, and if the number of pairs exceeds the specified maxPairs or doesn't match the preferredPairs,
+     * it attempts to regenerate the puzzle. The function will retry up to maxAttempts times.
+     * If the puzzle is not valid within the allowed attempts, it stops trying.
+     * 
+     * @param {Number} maxPairs - The maximum number of pairs in the puzzle. Default is 10.
+     * @param {Number|null} preferredPairs - The preferred number of pairs in the puzzle. If not specified, it is treated as null and ignored.
+     * @param {Number} maxAttempts - The maximum number of attempts to generate a valid puzzle. Default is 1000. 
+     * If the puzzle cannot be generated within the specified attempts, it stops trying and returns the result.
+     * 
+     * @returns {Boolean} - Returns true if a valid puzzle is generated within the allowed attempts, false otherwise.
      */
-    generateNewPuzzle(maxPairs = 10, preferredPairs = null, maxAttempts = 100) {
-        const newPuzzle = this.generateBoard();
-
-        this.unsolvedBoard = newPuzzle[0];
-        this.solvedBoard = newPuzzle[1];
-
-        if (maxAttempts <= 0) return;
-
-        const numberOfPairs = this.countPairs();
-        if (numberOfPairs > maxPairs || numberOfPairs != preferredPairs) {
-            this.generateNewPuzzle(maxPairs, preferredPairs, maxAttempts - 1);
+    generateNewPuzzle(maxPairs = 10, preferredPairs = false, maxAttempts = 1000) {
+        let attempts = 0;
+        let validPuzzle = false;
+    
+        // Loop until maxAttempts is reached or a valid puzzle is generated
+        while (attempts < maxAttempts && !validPuzzle) {
+            const newPuzzle = this.generateBoard();
+    
+            this.unsolvedBoard = newPuzzle[0];
+            this.solvedBoard = newPuzzle[1];
+    
+            maxPairs = Math.min(maxPairs, 10);
+            if (preferredPairs) preferredPairs = Math.min(preferredPairs, maxPairs);
+    
+            const numberOfPairs = this.countPairs();
+    
+            // Check if the puzzle meets the criteria
+            if (numberOfPairs <= maxPairs) {
+                if (!preferredPairs) validPuzzle = true;
+                else if (numberOfPairs === preferredPairs) validPuzzle = true;
+            } else {
+                attempts++;  // Increment attempts if the puzzle doesn't meet the criteria
+            }
         }
+    
+        // If the puzzle couldn't be generated within maxAttempts, print a message
+        if (!validPuzzle && this.countPairs() > 10) {
+            this.generateNewPuzzle(maxPairs, preferredPairs, maxAttempts);
+        }
+
+        return validPuzzle;
     }
 
     /**
@@ -511,7 +539,7 @@ class NumberlinkPuzzle extends NumberlinkGenerator {
      * This method iterates through all cells in the 2D array and adds each number
      * to a `Set`, which automatically ensures uniqueness.
      * 
-     * @returns {number} The count of unique numbers in the 2D array.
+     * @returns {number} - The count of unique numbers in the 2D array.
      */
     countPairs() {
         const uniqueNumbers = new Set();

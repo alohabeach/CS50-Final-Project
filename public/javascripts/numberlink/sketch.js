@@ -17,8 +17,56 @@ function draw() {
 
 function windowResized() {
     scaleHandler.update(windowWidth * 0.6, windowHeight * 0.6);
+    if (board) board.updateScales();
 }
 
 ['mousePressed', 'mouseDragged', 'mouseReleased'].forEach(handler => {
     window[handler] = _ => board[handler]();
+});
+
+
+
+
+
+
+
+function displayError(message, containerId) {
+    // Create the error alert element
+    const alertElement = document.createElement('div');
+    alertElement.classList.add('alert', 'alert-danger', 'alert-dismissible', 'fade', 'show');
+    alertElement.setAttribute('role', 'alert');
+  
+    // Add the error message to the alert
+    alertElement.innerHTML = `${message} 
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`;
+  
+    // Append the alert to the specified container
+    const container = document.getElementById(containerId);
+    if (container) {
+        container.appendChild(alertElement);
+    } else {
+        console.error("Container element not found.");
+    }
+}
+
+const settings = {
+    maxPairsRange: 10,
+    preferredPairsRange: false,
+};
+
+document.getElementById("saveChanges").addEventListener("click", _ => {
+    for (const documentId in settings) {
+        const element = document.getElementById(documentId);
+        if (element.disabled) settings[documentId] = false;
+        else settings[documentId] = parseInt(element.value);
+    }
+
+    const modal = bootstrap.Modal.getInstance(document.getElementById('newPuzzleModal'));
+    modal.hide();
+});
+
+document.getElementById("newPuzzle").addEventListener("click", _ => {
+    const validPuzzle = logic.generateNewPuzzle(settings.maxPairsRange, settings.preferredPairsRange);
+    if (!validPuzzle) displayError("Could not generate a valid puzzle.", "error-container");
+    board.updateBoard(logic.unsolvedBoard);
 });

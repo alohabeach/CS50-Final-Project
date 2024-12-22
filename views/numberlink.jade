@@ -1,8 +1,93 @@
 extends layout
 
 block content
+    // Numberlink Game
     .canvas-container
         canvas#numberlink()
+
+    // Game Controls
+    .d-flex.justify-content-center.gap-3.my-3
+        // Settings Icon
+        button.btn.btn-primary.p-2(type='button' data-bs-toggle='modal' data-bs-target='#newPuzzleModal')
+            i.bi.bi-gear-fill
+        // New Puzzle Button
+        button#newPuzzle.btn.btn-success(type='button')
+            | New Puzzle
+        // Solve Puzzle Button
+        button#solveButton.btn.btn-warning(type='button')
+            | Solve Puzzle
+
+    #error-container
+
+    // New Puzzle Modal
+    #newPuzzleModal.modal.fade(tabindex='-1' aria-labelledby='newPuzzleModalLabel' aria-hidden='true')
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    h5#newPuzzleModalLabel.modal-title New Puzzle Settings
+                    button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                .modal-body
+                    p
+                        | Customize your new puzzle with the settings below. Use the sliders to adjust the maximum and preferred number of pairs. The maximum pairs setting defines the largest number of numbers to link in the puzzle, while the preferred pairs setting lets you specify your ideal challenge level (optional).
+                    
+                    .mb-3
+                        label.form-label(for='maxPairsRange')
+                            | Maximum Pairs: 
+                            span#maxPairsValue 10
+                        input#maxPairsRange.form-range(type='range' min='1' max='10' value='10')
+                    .form-check.mb-3
+                        input#enablePreferredPairs.form-check-input(type='checkbox')
+                        label.form-check-label(for='enablePreferredPairs')
+                            | Enable Preferred Pairs
+                    .mb-3
+                        label.form-label(for='preferredPairsRange')
+                            | Preferred Pairs: 
+                            span#preferredPairsValue 10
+                        input#preferredPairsRange.form-range(type='range' min='1' max='10' value='10' disabled)
+                .modal-footer
+                    button.btn.btn-secondary(type='button' data-bs-dismiss='modal') Cancel
+                    button#saveChanges.btn.btn-primary(type='button') Save Changes
+
+    script.
+        // Get the elements
+        const maxPairsRange = document.getElementById('maxPairsRange');
+        const preferredPairsRange = document.getElementById('preferredPairsRange');
+        const preferredPairsValue = document.getElementById('preferredPairsValue');
+        const maxPairsValue = document.getElementById('maxPairsValue');
+        const enablePreferredPairs = document.getElementById('enablePreferredPairs');
+
+        // Set up event listeners for Max Pairs slider
+        maxPairsRange.addEventListener('input', function() {
+            // Update the max pairs value display
+            maxPairsValue.textContent = maxPairsRange.value;
+
+            // Ensure the preferred pairs slider doesn't exceed the max pairs range
+            if (parseInt(preferredPairsRange.value) > parseInt(maxPairsRange.value)) {
+                preferredPairsRange.value = maxPairsRange.value;
+                preferredPairsValue.textContent = preferredPairsRange.value;
+            }
+
+            // Set the max value of the preferred pairs slider to be the max pairs value
+            preferredPairsRange.setAttribute('max', maxPairsRange.value);
+        });
+
+        // Set up event listener for Preferred Pairs slider
+        preferredPairsRange.addEventListener('input', function() {
+            // Update the preferred pairs value display
+            preferredPairsValue.textContent = preferredPairsRange.value;
+        });
+
+        // Set up event listener for the checkbox to enable/disable the Preferred Pairs slider
+        enablePreferredPairs.addEventListener('change', function() {
+            if (enablePreferredPairs.checked) {
+                // Enable the preferred pairs slider
+                preferredPairsRange.disabled = false;
+            } else {
+                // Disable the preferred pairs slider
+                preferredPairsRange.disabled = true;
+            }
+        });
+
     script(src="https://cdn.jsdelivr.net/npm/p5@1.11.2/lib/p5.min.js")
     script(src="/javascripts/numberlink/lib/colors.js")
     script(src="/javascripts/numberlink/lib/numberlink-logic.js")

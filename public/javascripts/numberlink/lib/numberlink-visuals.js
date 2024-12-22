@@ -34,7 +34,7 @@ class DrawNumberlink {
         this.gridSize = this.numberlinkBoard.length * this.cellSize
     }
 
-    updateNumberlinkBoard(newBoard) {
+    updateBoard(newBoard) {
         this.numberlinkBoard = newBoard;
         this.init();
     }
