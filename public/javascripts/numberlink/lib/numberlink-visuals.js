@@ -1,6 +1,6 @@
 class DrawNumberlink {
     constructor(numberlinkBoard, scaleHandler, rootPos) {
-        this.numberlinkBoard = numberlinkBoard;
+        this.numberlinkBoard = JSON.parse(JSON.stringify(numberlinkBoard));
         this.scaleHandler = scaleHandler;
         this.scale = scaleHandler.getScale();
         this.rootPos = rootPos;
@@ -34,9 +34,16 @@ class DrawNumberlink {
         this.gridSize = this.numberlinkBoard.length * this.cellSize
     }
 
-    updateBoard(newBoard) {
-        this.numberlinkBoard = newBoard;
-        this.init();
+    updateBoard(newBoard, isSolution = false) {
+        newBoard = JSON.parse(JSON.stringify(newBoard));
+
+        if (isSolution && this.numberlinkBoard) {
+            this.updateScales();
+            this.numberlinkBoard.flatMap((column, columnIndex) => column.map((cell, rowIndex) => cell.currentColor = this.colors.getColorAt(newBoard[columnIndex][rowIndex] - 1)));
+        } else {
+            this.numberlinkBoard = newBoard;
+            this.init();
+        }
     }
 
     getSelectionAtMouse() {

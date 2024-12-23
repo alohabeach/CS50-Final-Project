@@ -47,12 +47,20 @@ function displayError(message) {
     }, 5000);
 }
 
+function sleep(milliseconds) {
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
+
 const settings = {
     maxPairsRange: 10,
     preferredPairsRange: false,
 };
 
+let debounce;
+
 document.getElementById("saveChanges").addEventListener("click", _ => {
+    if (debounce) return;
+
     for (const documentId in settings) {
         const element = document.getElementById(documentId);
         if (element.disabled) settings[documentId] = false;
@@ -64,7 +72,31 @@ document.getElementById("saveChanges").addEventListener("click", _ => {
 });
 
 document.getElementById("newPuzzle").addEventListener("click", _ => {
+    if (debounce) return;
+
     const validPuzzle = logic.generateNewPuzzle(settings.maxPairsRange, settings.preferredPairsRange);
     if (!validPuzzle) displayError("Could not generate a valid puzzle.");
     board.updateBoard(logic.unsolvedBoard);
+});
+
+document.getElementById("solveButton").addEventListener("click", async _ => {
+    if (debounce) return;
+    debounce = true;
+
+    board.updateBoard(logic.unsolvedBoard);
+
+    const solutions = logic.getSolution(true);
+    if (!solutions) {
+        displayError("Could not animate puzzle solution.");
+        board.updateBoard(logic.solvedBoard, true);
+        debounce = false;
+        return;
+    }
+
+    for (const solution of solutions) {
+        board.updateBoard(solution, true);
+        await sleep(75);
+    }
+
+    debounce = false;
 });

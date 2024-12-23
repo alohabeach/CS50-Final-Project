@@ -1,8 +1,9 @@
 // solver is made by me
 class NumberlinkSolver {
     constructor(puzzle) {
-        this.originalPuzzle = puzzle;
-        this.savedStates = [puzzle];
+        puzzle = JSON.parse(JSON.stringify(puzzle));
+        
+        this.savedStates = [];
         this.solvedPuzzle = puzzle;
 
         this.lastMovedNumber = [];
@@ -563,7 +564,9 @@ class NumberlinkPuzzle extends NumberlinkGenerator {
      */
     getSolution(showSteps = false) {
         const solver = new NumberlinkSolver(this.unsolvedBoard);
-        return solver.solve(showSteps);
+        const solution = solver.solve(showSteps);
+
+        return solution;
     }
 
     /**
