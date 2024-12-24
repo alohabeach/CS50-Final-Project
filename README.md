@@ -1,6 +1,7 @@
 <!-- TITLE -->
 # Game Hub - CS50 Final Project
 This is a simple game hub website built using Express. It includes two games: Connect 4 and Connect Flow. The application serves as a platform to play these games in a web browser.
+View the live demo [here](https://youtu.be/iMDUf4-Dh5g)
 
 
 ### Built With
