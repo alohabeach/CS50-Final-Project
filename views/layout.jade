@@ -12,8 +12,8 @@ html(lang='en' data-bs-theme='dark')
     body.bg-dark
         // Header with hero content
         header.hero.py-5.w-100
-            h1.font-weight-bold.mb-3 CS50 Final Project
-            p.lead Feel like I must apologize in advance for the god awful css. Front end was never really my thing.
+            h1.font-weight-bold.mb-3 #{error.status ? `${error.status} - ${message || 'CS50 Final Project'}` : 'CS50 Final Project'}
+            p.lead #{message ? 'Something went wrong' : 'Feel like I must apologize in advance for the god awful css. Front end was never really my thing.'}
             a.btn.bg-primary(href='/') Go Home
 
         block content

@@ -1,6 +1,5 @@
 extends layout
 
 block content
-    h1= message
-    h2= error.status
-    pre #{error.stack}
+    .d-flex.justify-content-center.align-items-center.mt-5
+        pre.text-left.fs-5 #{error.stack}
