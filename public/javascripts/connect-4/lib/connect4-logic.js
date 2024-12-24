@@ -1,4 +1,4 @@
-class Game {
+class Connect4Logic {
     constructor(columns, rows) {
         this.columns = columns;
         this.rows = rows;

@@ -2,7 +2,7 @@
 class NumberlinkSolver {
     constructor(puzzle) {
         puzzle = JSON.parse(JSON.stringify(puzzle));
-        
+
         this.savedStates = [];
         this.solvedPuzzle = puzzle;
 
@@ -486,7 +486,7 @@ class NumberlinkPuzzle extends NumberlinkGenerator {
      * 
      * @param {number} boardSize - The size of the board (number of rows and columns).
      */
-    constructor(boardSize, maxPairs) {
+    constructor(boardSize) {
         super(boardSize);
     }
 

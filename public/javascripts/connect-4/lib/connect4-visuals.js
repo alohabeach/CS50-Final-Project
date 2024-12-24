@@ -1,4 +1,4 @@
-class Board {
+class Connect4Visuals {
     constructor(columns, rows, scaleHandler, rootPos, gameState) {
         this.columns = columns;
         this.rows = rows;

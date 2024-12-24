@@ -11,7 +11,7 @@ function setup() {
 
     let oldPlayers = board?.players;
 
-    board = new Board(COLUMNS, ROWS, scaleHandler, new createVector(width/2, height/2), defaultGameState);
+    board = new Connect4Visuals(COLUMNS, ROWS, scaleHandler, new createVector(width/2, height/2), defaultGameState);
     board.singlePlayer = true;
     board.players = oldPlayers || [
         { username: "Player 1", playerNum: 1, type: "players", points: 0 },
@@ -20,7 +20,7 @@ function setup() {
     board.user = board.players[0];
     board.playerTurn = board.user;
 
-    game = new Game(COLUMNS, ROWS);
+    game = new Connect4Logic(COLUMNS, ROWS);
     game.players = board.players;
 
     ai = new Connect4AI({ depth: 5, columns: COLUMNS, rows: ROWS });
